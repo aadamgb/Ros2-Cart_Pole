@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+       <xacro:macro name="create_wheel" params="prefix x_reflect y_reflect x y z b r w m">
+        <joint name="${prefix}_joint" type="continuous">
+            <parent link="base_link"/>
+            <child link="${prefix}_link"/>
+            <origin xyz="${x_reflect*x} ${y_reflect*(b/2 + w/2 + y)} ${z}" rpy="${-y_reflect*pi/2} 0.0 0.0"/>
+            <axis xyz="0 0 ${y_reflect}"/>
+        </joint>
+        <link name="${prefix}_link">
+            <visual>
+                <geometry>
+                    <cylinder radius="${r}" length="${w}"/>
+                </geometry>
+                <material name = "Black">
+                    <color rgba= "0 0 0 1"/>
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="${r}" length="${w}"/>
+                </geometry>
+            </collision>
+            <xacro:inertial_cylinder mass="${m}"  radius="${r}" length="${w}">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_cylinder>
+        </link>
+    </xacro:macro>
+</robot>

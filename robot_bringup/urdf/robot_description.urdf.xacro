@@ -1,0 +1,109 @@
+<robot xmlns="http://robotics.org/urdf/2.0" xmlns:xacro="http://www.ros.org/wiki/xacro" name="simple_box">
+    
+    <!-- Inertia Macro -->
+    <xacro:include filename="inertial_macros.xacro" />
+
+    <!-- Cart Properties -->
+    <xacro:property name="base_length" value = "1"/>
+    <xacro:property name="base_width" value = "0.5"/>
+    <xacro:property name="base_height" value = "0.5"/>
+    <xacro:property name="base_mass" value = "1"/>
+
+    <!-- Links & Joints -->
+    <link name="base_link">
+        <!-- <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="invisible">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <inertial>
+            <mass value="0.001"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="1e-6" ixy="0.0" ixz="0.0"
+                    iyy="1e-6" iyz="0.0"
+                    izz="1e-6"/>
+        </inertial> -->
+    </link>
+
+
+
+    <joint name="cart_joint" type="fixed">
+        <origin xyz="0.0 0.0 ${base_height/2}" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="cart_link"/>
+        <axis xyz="1.0 0.0 0.0"/>
+        <limit lower="-5.0" upper="5.0" effort="10.0" velocity="1.0"/>
+    </joint>
+
+    <link name="cart_link">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}"/>
+            </geometry>
+            <material name="Blue">
+                <color rgba="0.0 0.0 1.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="${base_mass}" x="${base_length}" y="${base_width}" z="${base_height}">
+            <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="base_link"/>
+    <gazebo reference="cart_link">
+        <!-- <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>50.0</updateRate>
+            <bodyName>cart_link</bodyName>
+            <frameName>odom</frameName>
+            <odomTopic>odom</odomTopic>
+            <gaussianNoise>0.01</gaussianNoise>
+        </plugin> -->
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+    </gazebo>
+
+    <gazebo>
+        <!-- <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+            <topic>cmd_vel</topic>
+            <odom_topic>odom</odom_topic>
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_link</child_frame_id>
+            <odom_publisher_frequency>100</odom_publisher_frequency>
+            <tf_topic>/tf</tf_topic>
+            <publish_odom>true</publish_odom>
+            <publish_tf>true</publish_tf>
+        </plugin> -->
+
+        <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>50.0</updateRate>
+            <bodyName>cart_link</bodyName>
+            <frameName>odom</frameName>
+            <odomTopic>odom</odomTopic>
+            <gaussianNoise>0.01</gaussianNoise>
+        </plugin>
+
+
+      <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+         <topic>joint_states</topic>
+         <topic>odom</topic>
+         <!-- <joint_name>chassis_joint</joint_name> -->
+         <!-- <joint_name>mass_joint</joint_name> -->
+      </plugin> 
+    </gazebo>  
+
+        
+
+</robot>
