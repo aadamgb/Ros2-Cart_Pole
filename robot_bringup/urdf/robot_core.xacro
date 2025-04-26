@@ -72,61 +72,33 @@
       </xacro:inertial_box>
    </link>
 
-   <!-- <joint name="cg_joint" type="continuous">
-      <parent link="base_link"/>
-      <child link="cg_link"/>
-      <origin xyz="0.0 ${base_width/2 + wheel_width/2} ${wheel_zoff}" rpy="${-pi/2} 0.0 0.0"/>
-      <axis xyz="0 0 1"/>
-   </joint>
-   <link name="cg_link">
-      <visual>
-            <geometry>
-               <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
-            </geometry>
-            <material name = "Green">
-               <color rgba= "0.0 1.0 0.0 1"/>
-            </material>
-      </visual>
-      <collision>
-            <geometry>
-               <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
-            </geometry>
-      </collision>
-      <xacro:inertial_cylinder mass="${wheel_mass}"  radius="${wheel_radius}" length="${wheel_width}">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-      </xacro:inertial_cylinder>
-   </link> -->
-
    <xacro:create_wheel prefix="rl_wheel" x_reflect="-1" y_reflect="1" x="${wheel_xoff}" y="${wheel_yoff}" z="${wheel_zoff}" b="${base_width}" r="${wheel_radius}" w="${wheel_width}" m="${wheel_mass}" />
    <xacro:create_wheel prefix="rr_wheel" x_reflect="-1" y_reflect="-1" x="${wheel_xoff}" y="${wheel_yoff}" z="${wheel_zoff}" b="${base_width}" r="${wheel_radius}" w="${wheel_width}" m="${wheel_mass}" />
    <xacro:create_wheel prefix="fl_wheel" x_reflect="1" y_reflect="1" x="${wheel_xoff}" y="${wheel_yoff}" z="${wheel_zoff}" b="${base_width}" r="${wheel_radius}" w="${wheel_width}" m="${wheel_mass}" />
    <xacro:create_wheel prefix="fr_wheel" x_reflect="1" y_reflect="-1" x="${wheel_xoff}" y="${wheel_yoff}" z="${wheel_zoff}" b="${base_width}" r="${wheel_radius}" w="${wheel_width}" m="${wheel_mass}" />
-   <!-- <xacro:create_wheel prefix="cg" x_reflect="0" y_reflect="-0.5" x="${wheel_xoff}" y="${wheel_yoff}" z="${wheel_zoff}" b="${base_width}" r="${wheel_radius}" w="${wheel_width}" m="${wheel_mass}" /> -->
-   <!-- <xacro:create_wheel prefix="cg" x_reflect="0" y_reflect="0" x="0" y="-0.5" z="0" b="${base_width}" r="${wheel_radius}" w="${wheel_width}" m="${wheel_mass}" /> -->
 
    <gazebo reference="base_link"/>
+
    <gazebo reference="cart_link"/>
-   <gazebo reference="cg_link">
-      <mu1>1.0</mu1>
-      <mu2>1.0</mu2>
-   </gazebo>
 
    <gazebo reference="rl_wheel_link">
       <mu1>1.0</mu1>
       <mu2>1.0</mu2>
    </gazebo>
+
    <gazebo reference="rr_wheel_link">
       <mu1>1.0</mu1>
       <mu2>1.0</mu2>
    </gazebo>
+
    <gazebo reference="fl_wheel_link">
       <mu1>1.0</mu1>
       <mu2>1.0</mu2>
    </gazebo>
+
    <gazebo reference="fr_wheel_link">
       <mu1>1.0</mu1>
       <mu2>1.0</mu2>
    </gazebo>
-
-
+   
 </robot>

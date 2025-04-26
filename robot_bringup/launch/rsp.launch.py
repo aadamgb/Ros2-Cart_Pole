@@ -57,7 +57,4 @@ def generate_launch_description():
         robot_state_publisher,
         # joint_state_publisher,
         # joint_state_publisher_gui
-        # joint_state_broadcaster,
-        # cart_effort_controller,
-
     ])
